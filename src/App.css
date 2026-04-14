@@ -347,6 +347,13 @@ body {
   }
 }
 
+.highlight {
+  background: rgba(91, 106, 255, 0.18);
+  color: #fff;
+  border-radius: 4px;
+  padding: 2px 4px;
+}
+
 /* ── Upload ─────────────────────────────────────────── */
 .upload-area {
   border: 2px dashed var(--border);
