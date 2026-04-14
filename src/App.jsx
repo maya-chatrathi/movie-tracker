@@ -15,6 +15,24 @@ function SearchPanel() {
     setExpandedId((current) => (current === id ? null : id));
   };
 
+  const highlightPhrase = (text, phrase) => {
+    const value = String(text ?? "");
+    const search = String(phrase ?? "").trim();
+    if (!search) return value;
+
+    const escaped = search.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const regex = new RegExp(`(${escaped})`, "gi");
+    return value.split(regex).map((part, index) =>
+      regex.test(part) ? (
+        <span key={index} className="highlight">
+          {part}
+        </span>
+      ) : (
+        part
+      )
+    );
+  };
+
   const handleSearch = async (e) => {
     e.preventDefault();
     if (!query.trim()) return;
@@ -102,11 +120,11 @@ function SearchPanel() {
                           <tr className="result-details-row">
                             <td colSpan="4" className="result-details-cell">
                               <div className="details-grid">
-                                <div><strong>Title:</strong> {source.title ?? "-"}</div>
-                                <div><strong>Actors:</strong> {actors}</div>
-                                <div><strong>Director:</strong> {source.director ?? "-"}</div>
-                                <div><strong>Genre:</strong> {source.genre ?? "-"}</div>
-                                <div><strong>Year:</strong> {source.year ?? "-"}</div>
+                                <div><strong>Title:</strong> {highlightPhrase(source.title ?? "-", query)}</div>
+                                <div><strong>Actors:</strong> {highlightPhrase(actors, query)}</div>
+                                <div><strong>Director:</strong> {highlightPhrase(source.director ?? "-", query)}</div>
+                                <div><strong>Genre:</strong> {highlightPhrase(source.genre ?? "-", query)}</div>
+                                <div><strong>Year:</strong> {highlightPhrase(source.year ?? "-", query)}</div>
                               </div>
                             </td>
                           </tr>

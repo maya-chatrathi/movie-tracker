@@ -3,7 +3,7 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg:        #0c0c0f;
+  --bg:        #105465;
   --surface:   #13131a;
   --border:    #222230;
   --accent:    #5b6aff;
@@ -313,6 +313,13 @@ body {
 
 .details-grid strong {
   color: var(--muted);
+}
+
+.highlight {
+  background: rgba(91, 106, 255, 0.18);
+  color: #fff;
+  border-radius: 4px;
+  padding: 2px 4px;
 }
 
 /* ── Upload ─────────────────────────────────────────── */
