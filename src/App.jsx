@@ -1,14 +1,19 @@
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { searchIndex, indexDocument } from "./elasticsearch";
 import "./App.css";
 
 function SearchPanel() {
-  const [query, setQuery]     = useState("");
-  const [size, setSize]       = useState(10);
-  const [results, setResults] = useState(null);
-  const [total, setTotal]     = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError]     = useState(null);
+  const [query, setQuery]       = useState("");
+  const [size, setSize]         = useState(10);
+  const [results, setResults]   = useState(null);
+  const [total, setTotal]       = useState(null);
+  const [loading, setLoading]   = useState(false);
+  const [error, setError]       = useState(null);
+  const [expandedId, setExpandedId] = useState(null);
+
+  const toggleExpanded = (id) => {
+    setExpandedId((current) => (current === id ? null : id));
+  };
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -79,13 +84,34 @@ function SearchPanel() {
                 <tbody>
                   {results.map((hit) => {
                     const source = hit._source || {};
+                    const isOpen = expandedId === hit._id;
+                    const actors = source.actor ?? source.actors ?? "-";
                     return (
-                      <tr key={hit._id}>
-                        <td>{source.title ?? "-"}</td>
-                        <td>{source.year ?? "-"}</td>
-                        <td>{source.director ?? "-"}</td>
-                        <td className="result-score">{hit._score?.toFixed(3)}</td>
-                      </tr>
+                      <Fragment key={hit._id}>
+                        <tr
+                          className="result-row"
+                          onClick={() => toggleExpanded(hit._id)}
+                          aria-expanded={isOpen}
+                        >
+                          <td>{source.title ?? "-"}</td>
+                          <td>{source.year ?? "-"}</td>
+                          <td>{source.director ?? "-"}</td>
+                          <td className="result-score">{hit._score?.toFixed(3)}</td>
+                        </tr>
+                        {isOpen && (
+                          <tr className="result-details-row">
+                            <td colSpan="4" className="result-details-cell">
+                              <div className="details-grid">
+                                <div><strong>Title:</strong> {source.title ?? "-"}</div>
+                                <div><strong>Actors:</strong> {actors}</div>
+                                <div><strong>Director:</strong> {source.director ?? "-"}</div>
+                                <div><strong>Genre:</strong> {source.genre ?? "-"}</div>
+                                <div><strong>Year:</strong> {source.year ?? "-"}</div>
+                              </div>
+                            </td>
+                          </tr>
+                        )}
+                      </Fragment>
                     );
                   })}
                 </tbody>
@@ -158,12 +184,12 @@ function UploadPanel() {
 
         <div className="input-row">
           <label className="field-label">
-            Actor
+            Actors
             <input
               className="text-input"
               value={actor}
               onChange={(e) => setActor(e.target.value)}
-              placeholder="Lead actor"
+              placeholder="Lead actors"
             />
           </label>
         </div>
@@ -228,7 +254,7 @@ export default function App() {
         <div className="header-inner">
           <div className="logo">
             <span className="logo-icon">◈</span>
-            <span className="logo-text">ES<em>studio</em></span>
+            <span className="logo-text">Movie<em>Tracker</em></span>
           </div>
           <nav className="tabs">
             <button className={`tab ${tab === "search" ? "active" : ""}`} onClick={() => setTab("search")}>Search</button>

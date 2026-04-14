@@ -292,6 +292,29 @@ body {
   background: rgba(91, 106, 255, 0.05);
 }
 
+.result-row {
+  cursor: pointer;
+}
+
+.result-details-row {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.result-details-cell {
+  padding: 14px 16px;
+}
+
+.details-grid {
+  display: grid;
+  gap: 10px;
+  font-family: var(--mono);
+  color: var(--text);
+}
+
+.details-grid strong {
+  color: var(--muted);
+}
+
 /* ── Upload ─────────────────────────────────────────── */
 .upload-area {
   border: 2px dashed var(--border);
