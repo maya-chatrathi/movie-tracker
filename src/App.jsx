@@ -93,7 +93,12 @@ function SearchPanel() {
                           onClick={() => toggleExpanded(hit._id)}
                           aria-expanded={isOpen}
                         >
-                          <td>{source.title ?? "-"}</td>
+                          <td>
+                            <span className={`arrow-icon ${isOpen ? "open" : ""}`}>
+                              ▼
+                            </span>
+                            {source.title ?? "-"}
+                          </td>
                           <td>{source.year ?? "-"}</td>
                           <td>{source.director ?? "-"}</td>
                           <td className="result-score">{hit._score?.toFixed(3)}</td>
@@ -101,12 +106,14 @@ function SearchPanel() {
                         {isOpen && (
                           <tr className="result-details-row">
                             <td colSpan="4" className="result-details-cell">
-                              <div className="details-grid">
-                                <div><strong>Title:</strong> {source.title ?? "-"}</div>
-                                <div><strong>Actors:</strong> {actors}</div>
-                                <div><strong>Director:</strong> {source.director ?? "-"}</div>
-                                <div><strong>Genre:</strong> {source.genre ?? "-"}</div>
-                                <div><strong>Year:</strong> {source.year ?? "-"}</div>
+                              <div className="details-panel">
+                                <div className="details-grid">
+                                  <div><strong>Title:</strong> {source.title ?? "-"}</div>
+                                  <div><strong>Actors:</strong> {actors}</div>
+                                  <div><strong>Director:</strong> {source.director ?? "-"}</div>
+                                  <div><strong>Genre:</strong> {source.genre ?? "-"}</div>
+                                  <div><strong>Year:</strong> {source.year ?? "-"}</div>
+                                </div>
                               </div>
                             </td>
                           </tr>

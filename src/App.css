@@ -296,12 +296,33 @@ body {
   cursor: pointer;
 }
 
+.result-row td {
+  position: relative;
+}
+
+.arrow-icon {
+  display: inline-block;
+  margin-right: 8px;
+  font-size: 0.8em;
+  transition: transform 0.2s ease;
+  color: var(--accent);
+}
+
+.arrow-icon.open {
+  transform: rotate(180deg);
+}
+
 .result-details-row {
   background: rgba(255, 255, 255, 0.03);
 }
 
 .result-details-cell {
+  padding: 0;
+}
+
+.details-panel {
   padding: 14px 16px;
+  animation: slideDown 180ms ease-out;
 }
 
 .details-grid {
@@ -313,6 +334,17 @@ body {
 
 .details-grid strong {
   color: var(--muted);
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ── Upload ─────────────────────────────────────────── */
